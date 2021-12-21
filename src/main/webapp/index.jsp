@@ -1,7 +1,6 @@
 <%@ page import="suai.webkatalog.model.Categories" %>
 <%@ page import="suai.webkatalog.model.Product" %>
-<%@ page import="java.util.concurrent.ConcurrentSkipListSet" %>
-<%@ page import="suai.webkatalog.model.Catalog" %>
+<%@ page import="java.util.List" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,21 +61,22 @@
     <div class="row m-4">
         <div class="col-sm-2">
             <div class="list-group">
-                <%  Categories[] categories = Categories.values();
+                <% Categories[] categories = Categories.values();
                     for (Categories categories1 : categories) { %>
-                <a href="categories.jsp?Categories=<%=categories1%>" class="list-group-item"><%=categories1%></a>
-                <%  }%>
+                <form action="CategoriesServlet" method="post">
+                    <input type="hidden" name="Categories" value="<%=categories1%>">
+                    <input type="submit" class="btn btn-light" value="<%=categories1%>">
+                </form>
+                <% }%>
             </div>
         </div>
         <div class="col-md-8 products">
             <div class="row">
                 <%
-                    Catalog catalog = Catalog.getInstance();
-                    if (catalog.isEmpty()) {
-                        catalog.loadFile("C:\\Users\\Ilya\\Desktop\\YandexDisk\\Labs\\Java\\Web-katalog\\src\\main\\java\\suai\\webkatalog\\data\\catalog.txt");
-                    }
-                    ConcurrentSkipListSet<Product> products = catalog.getProducts();
-                    for (Product product : products) {
+                    List<?> products = (List<?>) request.getAttribute("products");
+                    if (products != null) {
+                        for (Object productO : products) {
+                            Product product = (Product) productO;
                 %>
                 <div class="col-md-4">
                     <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
@@ -118,7 +118,38 @@
                         </div>
                     </div>
                 </div>
-                <%}%>
+                <%
+                        }
+                    } else {
+                        response.sendRedirect("IndexServlet");
+                    }
+                %>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-2">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group me-2 " role="group">
+                    <% String tmp = (String) request.getAttribute("numberOfPage");
+                        int numberOfPage = 1;
+                        if (tmp != null) {
+                            numberOfPage = Integer.parseInt(tmp);
+                        }
+                        for (int i = 1; i <= numberOfPage; i++) { %>
+                    <div class="col">
+                        <form action="IndexServlet" method="post">
+                            <input type="hidden" name="numberPage" value="<%=i%>">
+                            <input type="submit" class="btn btn-primary" value="<%=i%>">
+                        </form>
+                    </div>
+                    <%
+                        }
+                    %>
+                </div>
             </div>
         </div>
     </div>

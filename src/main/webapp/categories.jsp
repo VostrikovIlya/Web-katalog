@@ -1,10 +1,5 @@
-<%@ page import="suai.webkatalog.model.Categories" %>
 <%@ page import="suai.webkatalog.model.Product" %>
-<%@ page import="java.util.concurrent.ConcurrentSkipListSet" %>
-<%@ page import="suai.webkatalog.model.Catalog" %>
-<%@ page import="java.util.stream.Stream" %>
-<%@ page import="java.util.stream.Collectors" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +46,7 @@
                 %>
                 <a class="nav-link active" aria-current="page" href="log-out-servlet"><%="LogOut"%>
                 </a>
-                <a class="nav-link active" aria-current="page" href="basket.jsp"><%="Add Product"%>
+                <a class="nav-link active" aria-current="page" href="addProduct.jsp"><%="Add Product"%>
                 </a>
                 <%}%>
             </div>
@@ -62,31 +57,12 @@
 
 <div class="container overflow-hidden">
     <div class="row m-4">
-        <div class="col-sm-2">
-            <div class="list-group">
-                <%
-                    Categories[] categories = Categories.values();
-                    for (Categories categories1 : categories) {
-                %>
-                <a href="categories.jsp?Categories=<%=categories1%>" class="list-group-item"><%=categories1%>
-                </a>
-                <%}%>
-            </div>
-        </div>
         <div class="col-md-8 products">
             <div class="row">
                 <%
-                    Categories categories2 = Categories.findByName(request.getParameter("Categories"));
-                    Catalog catalog = Catalog.getInstance();
-                    if (categories2 != null) {
-                        Stream<Product> productStream = catalog.getProducts().stream().filter(e ->
-                        {
-                            if (e.getCategories() != null)
-                                return e.getCategories().equals(categories2);
-                            return false;
-                        });
-
-                        for (Product product : productStream.collect(Collectors.toCollection(ArrayList::new))) {
+                    List<?> products = (List<?>) request.getAttribute("products");
+                     for (Object productO : products) {
+                         Product product = (Product) productO;
                 %>
                 <div class="col-md-4">
                     <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
@@ -130,8 +106,34 @@
                         </div>
                     </div>
                 </div>
-                <% }
-                }%>
+                <% }%>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-2">
+            <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group me-2 " role="group">
+                    <% String tmp = request.getParameter("numberOfPage");
+                        String categories = request.getParameter("Categories");
+                        int numberOfPage = 1;
+                        if (tmp != null) {
+                            numberOfPage = Integer.parseInt(tmp);
+                        }
+                        for (int i = 1; i <= numberOfPage; i++) { %>
+                    <div class="col">
+                        <form action="CategoriesServlet" method="post">
+                            <input type="hidden" name="Categories" value="<%=categories%>">
+                            <input type="hidden" name="numberPage" value="<%=i%>">
+                            <input type="submit" class="btn btn-primary" value="<%=i%>">
+                        </form>
+                    </div>
+                    <%
+                    }%>
+                </div>
             </div>
         </div>
     </div>

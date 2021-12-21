@@ -42,7 +42,7 @@
             <div class="row">
                 <% Basket basket = (Basket) ses.getAttribute("Basket");
                     ConcurrentSkipListSet<Product> products = basket.getProducts();
-                    int total = 0;
+                    int total = products.stream().mapToInt(e -> e.getPrice() * e.getNumber()).sum();
                     if (basket.size() == 0) {
                 %>
                 <h3><%="Basket empty!"%>
@@ -50,7 +50,6 @@
                 <%
                     }
                     for (Product product : products) {
-                        total += product.getPrice();
                 %>
                 <div class="col-md-4">
                     <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
@@ -72,12 +71,17 @@
                         </div>
                     </div>
                 </div>
-                <%} if (basket.size() != 0) {%>
-                    <h2><%="Total: " + total + "$"%></h2>
+                <%
+                    }
+                    if (basket.size() != 0) {
+                %>
+                <h2><%="Total: " + total + "$"%>
+                </h2>
                 <%}%>
             </div>
         </div>
     </div>
 </div>
+
 </body>
 </html>
