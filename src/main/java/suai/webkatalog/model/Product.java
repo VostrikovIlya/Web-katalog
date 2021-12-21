@@ -52,12 +52,7 @@ public class Product implements Comparable<Product>, Cloneable{
 
     @Override
     public Product clone() throws CloneNotSupportedException {
-        Product clone = (Product) super.clone();
-        clone.name = this.name;
-        clone.number = this.number;
-        clone.price = this.price;
-        clone.id = this.id;
-        return clone;
+        return new Product( this.name, this.number, this.price, this.id);
     }
 
     public void setName(String name) {
@@ -104,7 +99,7 @@ public class Product implements Comparable<Product>, Cloneable{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(name, product.name) && Objects.equals(number, product.number) && Objects.equals(price, product.price) && Objects.equals(id, product.id) && categories == product.categories;
+        return name.equals(product.name) && number.equals(product.number) && price.equals(product.price) && id.equals(product.id);
     }
 
     @Override
