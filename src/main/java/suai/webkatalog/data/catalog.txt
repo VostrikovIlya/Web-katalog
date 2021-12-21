@@ -1,8 +1,9 @@
-Book 2 29
-Notebook 5 49
-Mouse 90 12
-Phone 5 2121
+AirPods 4 500
+Apple 5 3
+Game 7 25
+Headphone 9 40
+IPhone10 5 800 Phone
 IPhone11 10 1000 Phone
-IPhone10 11 800 Phone
-IPhone8 5 500 Phone
-IPhone12 123 1200 Phone
+M 1 1
+MM 2 23
+Phone 4 1

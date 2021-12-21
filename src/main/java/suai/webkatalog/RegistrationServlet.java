@@ -1,5 +1,6 @@
 package suai.webkatalog;
 
+import suai.webkatalog.model.Basket;
 import suai.webkatalog.model.Users;
 
 import javax.servlet.ServletException;
@@ -18,7 +19,7 @@ public class RegistrationServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         if(users.getSize() == 0) {
-            users.loadFile("src/main/java/suai/webkatalog/data/users.txt");
+            users.loadFile("C:\\Users\\Ilya\\Desktop\\YandexDisk\\Labs\\Java\\Web-katalog\\src\\main\\java\\suai\\webkatalog\\data\\users.txt");
         }
     }
 
@@ -40,6 +41,8 @@ public class RegistrationServlet extends HttpServlet {
                 users.addUser(name, password);
                 HttpSession session = request.getSession();
                 session.setAttribute("name", name);
+                Basket basket = new Basket();
+                session.setAttribute("Basket", basket);
                 response.sendRedirect("index.jsp");
             }
         }
@@ -52,6 +55,6 @@ public class RegistrationServlet extends HttpServlet {
     @Override
     public void destroy() {
         super.destroy();
-        users.saveFile("src/main/java/suai/webkatalog/data/users.txt");
+        users.saveFile("C:\\Users\\Ilya\\Desktop\\YandexDisk\\Labs\\Java\\Web-katalog\\src\\main\\java\\suai\\webkatalog\\data\\users.txt");
     }
 }

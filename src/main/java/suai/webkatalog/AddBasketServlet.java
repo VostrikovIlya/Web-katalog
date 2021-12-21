@@ -23,18 +23,15 @@ public class AddBasketServlet extends HttpServlet {
         if (idProduct != null && basket != null) {
             Product prodFromCatalog = catalog.getProduct(idProduct)
                     .orElseThrow(RuntimeException::new);
+
             if (basket.containsProduct(idProduct)) {
                 basket.getProduct(idProduct).ifPresent(product -> product.setNumber(product.getNumber() + 1));
             } else {
-                if (prodFromCatalog.getCategories() != null) {
-                    basket.addProduct(new Product(prodFromCatalog.getName(), 1, prodFromCatalog.getPrice(), prodFromCatalog.getId(), prodFromCatalog.getCategories()));
-                } else {
-                    basket.addProduct(new Product(prodFromCatalog.getName(), 1, prodFromCatalog.getPrice(), prodFromCatalog.getId()));
-                }
+                basket.addProduct(new Product(prodFromCatalog.getName(), 1, prodFromCatalog.getPrice(), prodFromCatalog.getId()));
             }
 
             prodFromCatalog.setNumber(prodFromCatalog.getNumber() - 1);
-            if (prodFromCatalog.getNumber() == 0) {
+            if (prodFromCatalog.getNumber() < 1) {
                 catalog.removeProduct(prodFromCatalog);
             }
         }

@@ -14,7 +14,7 @@ public class Admin {
     private static volatile Admin instance;
     private final ConcurrentHashMap<String, String> admins;
 
-    public Admin() {
+    private Admin() {
         this.admins = new ConcurrentHashMap<>();
     }
 

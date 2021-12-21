@@ -17,6 +17,7 @@ public class AddProductServlet extends HttpServlet {
         String number = request.getParameter("number");
         String price = request.getParameter("price");
         String categories = request.getParameter("categories");
+
         if (name != null && number != null && price != null && categories != null) {
             Catalog catalog = Catalog.getInstance();
             Product product = new Product(name, Integer.parseInt(number), Integer.parseInt(price));
@@ -32,7 +33,6 @@ public class AddProductServlet extends HttpServlet {
     public void destroy() {
         super.destroy();
         Catalog catalog = Catalog.getInstance();
-        System.out.println("Save file catalog");
         catalog.saveFile("C:\\Users\\Ilya\\Desktop\\YandexDisk\\Labs\\Java\\Web-katalog\\src\\main\\java\\suai\\webkatalog\\data\\catalog.txt");
     }
 }

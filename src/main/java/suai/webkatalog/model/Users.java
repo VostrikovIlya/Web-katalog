@@ -25,7 +25,7 @@ public class Users {
         return instance;
     }
 
-    public Users() {
+    private Users() {
         this.users = new ConcurrentHashMap<>();
     }
 

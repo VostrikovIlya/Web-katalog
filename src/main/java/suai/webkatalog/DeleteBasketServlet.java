@@ -22,7 +22,6 @@ public class DeleteBasketServlet extends HttpServlet {
         if (ses.getAttribute("name") != null && idProduct != null && basket != null) {
             Product productFromBasket = basket.removeProduct(idProduct)
                     .orElseThrow(RuntimeException::new);
-            ses.setAttribute("Basket", basket);
             int number = productFromBasket.getNumber();
 
             catalog.getProduct(idProduct).ifPresentOrElse(product -> product.setNumber(product.getNumber() + number), () -> catalog.addProduct(productFromBasket));

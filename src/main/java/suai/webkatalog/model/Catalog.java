@@ -22,13 +22,8 @@ public class Catalog {
         return instance;
     }
 
-    public Catalog() {
+    private Catalog() {
         products = new ConcurrentSkipListSet<>();
-//        try {
-//            loadFile("C:\\Users\\Ilya\\Desktop\\YandexDisk\\Labs\\Java\\Web-katalog\\src\\main\\java\\suai\\webkatalog\\data\\catalog.txt");
-//        } catch (FileNotFoundException ex) {
-//            ex.printStackTrace();
-//        }
     }
 
     public void loadFile(String filName) throws FileNotFoundException {
@@ -79,16 +74,16 @@ public class Catalog {
         return products;
     }
 
-    public void addProduct(Product product) {
-        products.add(product);
+    public boolean addProduct(Product product) {
+       return products.add(product);
     }
 
-    public void removeProduct(Product product) {
-        products.remove(product);
+    public boolean removeProduct(Product product) {
+        return products.remove(product);
     }
 
-    public void removeProduct(String id) {
-        products.removeIf(product -> product.getId().equals(id));
+    public boolean removeProduct(String id) {
+        return products.removeIf(product -> product.getId().equals(id));
     }
 
     public boolean containProduct(String id) {
